@@ -1,3 +1,19 @@
+# Script em Python para Processar Arquivos CSV
+
+Crie um script em Python que processe os meus dados CSV de arquivos distintos, verifique as colunas de **Pais** e **Vendas**, e some todas essas vendas. Preciso que a sua saída seja como uma tabela com o seu respectivo **ID**.
+
+## Descrição
+
+O script a seguir realiza as seguintes operações:
+- Lê todos os arquivos CSV dentro da pasta especificada.
+- Filtra apenas as colunas **Pais** e **Vendas**.
+- Soma as vendas agrupadas por país.
+- Adiciona um ID único para cada país.
+- Exibe os resultados em formato de tabela.
+
+## Código
+
+```python
 import pandas as pd
 import glob
 
@@ -11,8 +27,8 @@ def process_csv_files(folder_path):
     for file in csv_files:
         try:
             df = pd.read_csv(file)
-            if 'delivery_country' in df.columns and 'total_price' in df.columns:
-                dataframes.append(df[['delivery_country', 'total_price']])
+            if 'Pais' in df.columns and 'Vendas' in df.columns:
+                dataframes.append(df[['Pais', 'Vendas']])
         except Exception as e:
             print(f"Erro ao processar {file}: {e}")
 
@@ -21,7 +37,7 @@ def process_csv_files(folder_path):
         combined_df = pd.concat(dataframes)
 
         # Somar as vendas por país
-        result = combined_df.groupby('delivery_country', as_index=False)['total_price'].sum()
+        result = combined_df.groupby('Pais', as_index=False)['Vendas'].sum()
 
         # Adicionar coluna de ID
         result.insert(0, 'ID', range(1, len(result) + 1))
@@ -32,5 +48,5 @@ def process_csv_files(folder_path):
         print("Nenhum arquivo válido encontrado.")
 
 # Defina o caminho da pasta onde estão os arquivos CSV
-folder_path = "../data/raw_data"
+folder_path = "caminho/para/seus/arquivos"
 process_csv_files(folder_path)
